@@ -11,7 +11,7 @@ import java.util.ArrayList;
  *
  * @author Bprog
  */
-public class Swiplist<T extends Comparable<T>> {
+public class Swiplist<T extends Comparable<? super T>> {
     
     private final int MAX = 20;
     
