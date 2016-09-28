@@ -11,28 +11,28 @@ import java.util.ArrayList;
  *
  * @author Bprog
  */
-public class Swiplist {
+public class Swiplist<T> {
     
-    private final int MAX = 10;
+    private final int MAX = 20;
     
     /**
      * Tableau des têtes de liste. 
      * Chaque tête correspond à un étage de la liste.
      */
-    private ArrayList<Node> heads;
+    private ArrayList<Node<T>> heads;
     
     /**
      * Tableau des valeurs contenues dans la liste. 
      */
-    private ArrayList<Integer> values;
+    private ArrayList<T> values;
     
     /**
      * Constructeur par defaut. 
      * Initialise la première tête de la liste à "null".
      */
     public Swiplist () {
-        values = new ArrayList<Integer> ();
-        heads = new ArrayList<Node>();
+        values = new ArrayList<T> ();
+        heads = new ArrayList<Node<T>>();
         heads.add(null);
     }
     
@@ -65,8 +65,8 @@ public class Swiplist {
      * @param value Valeur du noeud.
      * @return Le noeud généré.
      */
-    private Node generateNode(int value) {
-        return new Node(value, generateRandomTowerSize());
+    private Node generateNode(T value) {
+        return new Node<T>(value, generateRandomTowerSize());
     }
     
     /**
@@ -84,7 +84,7 @@ public class Swiplist {
      * 
      * @return Une valeur contenue dans la liste.
      */
-    private int getRandomValue() {
+    private T getRandomValue() {
         return values.get(
                 (int) Math.floor((Math.random() * (values.size() - 1)) + 1));
     }
@@ -102,9 +102,9 @@ public class Swiplist {
      * @param value Valeur du noeud à trouver.
      * @return Le noeud trouvé.
      */
-    private Node findNode(Node[] prevNodes, Node[] succNodes, int value) {
-        Node prevNode = null;
-        Node currentNode = null;
+    private Node<T> findNode(Node<T>[] prevNodes, Node<T>[] succNodes, T value) {
+        Node<T> prevNode = null;
+        Node<T> currentNode = null;
         
         for (int index = getNumberOfStairs() - 1; index >= 0; --index) {
             if (prevNode == null) 
@@ -133,9 +133,9 @@ public class Swiplist {
      * @param value Valeur du noeud à trouver.
      * @return Le noeud trouvé ou "null" si non trouvé.
      */
-    private Node findNodeByValue(int value) {
-        Node prevNode = null;
-        Node currentNode = null;
+    private Node<T> findNodeByValue(T value) {
+        Node<T> prevNode = null;
+        Node<T> currentNode = null;
         
         for (int index = getNumberOfStairs() - 1; index >= 0; --index) {
             if (prevNode == null) 
@@ -165,16 +165,16 @@ public class Swiplist {
      *
      * @param value Valeur du noeud à ajouter à la liste.
      */
-    public void add(int value) {
-        Node node = generateNode(value);
+    public void add(T value) {
+        Node<T> node = generateNode(value);
         
         if (node.getTowerHeight() > getNumberOfStairs())
             extendHeadsSize(node.getTowerHeight());
         
-        Node[] prevNodes = new Node[getNumberOfStairs()];
-        Node[] succNodes = new Node[getNumberOfStairs()];
+        Node<T>[] prevNodes = new Node[getNumberOfStairs()];
+        Node<T>[] succNodes = new Node[getNumberOfStairs()];
         
-        findNode(prevNodes, succNodes, value);       
+        findNode(prevNodes, succNodes, value);        
         insertNode(prevNodes, succNodes, node);
         
         values.add(node.getValue());
@@ -204,15 +204,15 @@ public class Swiplist {
      *
      * @param value Valeur du noeud à ajouter à la liste.
      */
-    public void remove(int value) {
-        Node[] prevNodes = new Node[getNumberOfStairs()];
-        Node[] succNodes = new Node[getNumberOfStairs()];
+    public void remove(T value) {
+        Node<T>[] prevNodes = new Node[getNumberOfStairs()];
+        Node<T>[] succNodes = new Node[getNumberOfStairs()];
 
-        Node node = findNode(prevNodes, succNodes, value);
+        Node<T> node = findNode(prevNodes, succNodes, value);
         
         if (node != null) {
             deleteNode(prevNodes, succNodes, node);
-            values.remove((Integer) node.getValue());
+            values.remove(node.getValue());
         }
         
         reduceHeadsSize();
