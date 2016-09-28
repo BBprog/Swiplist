@@ -11,7 +11,7 @@ import java.util.ArrayList;
  *
  * @author Bprog
  */
-public class Swiplist<T> {
+public class Swiplist<T extends Comparable<T>> {
     
     private final int MAX = 20;
     
@@ -113,7 +113,7 @@ public class Swiplist<T> {
                 currentNode = prevNode.getNode(index);
 
             while (currentNode != null && 
-                   currentNode.getValue() <= value) {
+                   currentNode.getValue().compareTo(value) <= 0) {
                 if (currentNode.getValue() != value)
                     prevNode = currentNode;
                 currentNode = currentNode.getNode(index);
@@ -144,7 +144,7 @@ public class Swiplist<T> {
                 currentNode = prevNode.getNode(index);
 
             while (currentNode != null && 
-                   currentNode.getValue() < value) {
+                   currentNode.getValue().compareTo(value) < 0) {
                 currentNode = currentNode.getNode(index);
             }
             
@@ -302,6 +302,15 @@ public class Swiplist<T> {
         Swiplist list = new Swiplist();
         
         System.out.println("-> adding éléments");
+        list.add("cc");
+        list.add("comment");
+        list.add("va");
+        list.add("tu");
+
+        list.print();
+        
+        /*
+        System.out.println("-> adding éléments");
         list.add(3);
         list.add(5);
         list.add(10);
@@ -325,6 +334,7 @@ public class Swiplist<T> {
         System.out.println("-> remove 3 random");
         list.removeRandomNodes(3);
         list.print();
-    }
-    
+        */
+    }    
+
 }
