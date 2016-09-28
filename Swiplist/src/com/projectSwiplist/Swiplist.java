@@ -200,7 +200,7 @@ public class Swiplist {
     }
     
     /**
-     * Cherche un élément dans la liste et le supprime.
+     * Cherche une valeur dans la liste et supprime le noeud correspondant.
      *
      * @param value Valeur du noeud à ajouter à la liste.
      */
@@ -320,6 +320,10 @@ public class Swiplist {
         list.add(9);
         list.add(12);
         list.add(1);
+        list.print();
+        
+        System.out.println("-> remove 3 random");
+        list.removeRandomNodes(3);
         list.print();
     }
     
