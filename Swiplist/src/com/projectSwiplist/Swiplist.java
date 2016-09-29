@@ -1,3 +1,5 @@
+package com.projectSwiplist;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -117,7 +119,6 @@ public class Swiplist<T extends Comparable<? super T>> {
                 currentNode = currentNode.getNode(index);
                 
             }
-            
             prevNodes[index] = prevNode;
         }
         
@@ -220,14 +221,16 @@ public class Swiplist<T extends Comparable<? super T>> {
      * Insère un noeud dans la liste.
      *
      * @param prevTower Noeuds précédents le nouveau noeud à insérer.
-     * @param succTower Noeuds suivants le nouveau noeud à insérer.
      * @param node Noeud à insérer dans la liste.
      */
     private void insertNode(Node[] prevTower,
                             Node<T> node) {        
         for (int index = 0; index < getNumberOfStairs(); ++index) {
-            if (prevTower[index] == null) 
+            if (prevTower[index] == null)
+            {
+                node.setNode(index, heads.get(index));
                 heads.set(index, node);
+            }
             else
             {
             	node.setNode(index, prevTower[index].getNode(index));
@@ -361,6 +364,7 @@ public class Swiplist<T extends Comparable<? super T>> {
         list.add(5);
         list.add(10);
         list.add(8);
+        list.print();
         list.add(1);
         list.print();
         
