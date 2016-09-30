@@ -62,6 +62,24 @@ public class Swiplist<T extends Comparable<? super T>> {
     }
     
     /**
+     * Renvoie le noeud contenant la valeur passée en paramètre si il est
+     * présent dans la liste, renvoie "null" sinon.
+     *
+     * (A REFAIRE)
+     * 
+     * @param value Valeur du noeud à trouver.
+     * @return Le noeud trouvé ou "null" si non trouvé.
+     */
+    private Node<T> findNodeByValue(T value) {
+        Node<T> prevNode = null;
+        Node<T> currentNode = null;
+        
+        
+        
+        return null;
+    }
+    
+    /**
      * Cherche la valeur dans la liste et renvoie le noeud trouvé.
      * 
      * (A REFAIRE)
@@ -70,13 +88,14 @@ public class Swiplist<T extends Comparable<? super T>> {
      * @param value Valeur du noeud à trouver.
      * @return Le noeud trouvé.
      */
-    private Node<T> findNodeToAdd(Node<T>[] prevNodes, T value) {
+    private Node<T> findNode(Node<T>[] prevNodes, T value) {
         if (isEmpty()) return head;
         
         Node<T> prevNode = null;
         Node<T> currentNode = head; 
         
-        for ( ; currentNode != null && currentNode.getValue().compareTo(value) < 0; )
+        for ( ; currentNode != null && 
+                currentNode.getValue().compareTo(value) < 0; )
         {
             prevNode = currentNode;
             currentNode = currentNode.getNode(currentNode.getTowerHeight() - 1);
@@ -90,86 +109,17 @@ public class Swiplist<T extends Comparable<? super T>> {
         for ( ; index >= 0; --index)        
         {
             currentNode = prevNode.getNode(index);
-            for ( ; currentNode != null && currentNode.getValue().compareTo(value) < 0; )
+            for ( ; currentNode != null && 
+                    currentNode.getValue().compareTo(value) < 0;
+                    currentNode = currentNode.getNode(index))
             {
                 prevNode = currentNode;
-                currentNode = currentNode.getNode(index);
+                
             }
             prevNodes[index] = prevNode;
         }
-        
-        return prevNode;
-    }
-    
-    /**
-     * Cherche la valeur dans la liste et renvoie le noeud trouvé.
-     * Parcours la liste depuis l'étage le plus haut et remplie les deux 
-     * tableaux passés en paramètres avec les noeuds précédents le noeud à 
-     * trouver.
-     * 
-     * (A REFAIRE)
-     *
-     * @param prevNodes Noeuds précédents le noeud à trouver.
-     * @param succNodes Noeuds suivants le noeud à trouver.
-     * @param value Valeur du noeud à trouver.
-     * @return Le noeud trouvé.
-     */
-    private Node<T> findNodeToRemove(Node<T>[] prevNodes, Node<T>[] succNodes, T value) {
-        Node<T> prevNode = null;
-        Node<T> currentNode = null;
-        
-        for (int index = getNumberOfStairs() - 1; index >= 0; --index) {
-            if (prevNode == null) 
-                currentNode = head;
-            else
-                currentNode = prevNode.getNode(index);
 
-            while (currentNode != null && 
-                   currentNode.getValue().compareTo(value) < 0) {
-                prevNode = currentNode;
-                currentNode = currentNode.getNode(index);
-            }
-            
-            if (currentNode != null && currentNode.getValue() == value) 
-            	currentNode = currentNode.getNode(index);
-            
-            prevNodes[index] = prevNode;
-            succNodes[index] = currentNode;
-        }
-        
-        return (prevNodes[0] == null) ? null : prevNodes[0].getNode(0);
-    }
-    
-    /**
-     * Renvoie le noeud contenant la valeur passée en paramètre si il est
-     * présent dans la liste, renvoie "null" sinon.
-     *
-     * (A REFAIRE)
-     * 
-     * @param value Valeur du noeud à trouver.
-     * @return Le noeud trouvé ou "null" si non trouvé.
-     */
-    private Node<T> findNodeByValue(T value) {
-        Node<T> prevNode = null;
-        Node<T> currentNode = null;
-        
-        for (int index = getNumberOfStairs() - 1; index >= 0; --index) {
-            if (prevNode == null) 
-                currentNode = head;
-            else
-                currentNode = prevNode.getNode(index);
-
-            while (currentNode != null && 
-                   currentNode.getValue().compareTo(value) < 0) {
-                currentNode = currentNode.getNode(index);
-            }
-            
-            if (currentNode != null && 
-                currentNode.getValue() == value) 
-                return currentNode;
-        }
-        
-        return null;
+        return prevNode.getNode(0);
     }
     
     /**
@@ -181,11 +131,10 @@ public class Swiplist<T extends Comparable<? super T>> {
      */
     public void add(T value) {    	
     	Node<T> node = generateNode(value);
-        Node<T>[] prevNodes = new Node[node.getTowerHeight()];
+        Node<T>[] prevNodes = new Node[getNumberOfStairs() + 1];
         
-        //findNodeToAdd(prevNodes, value);
+        findNode(prevNodes, value);
         insertNode(prevNodes, node);
-        values.add(node.getValue());
     }
     
     /**
@@ -200,9 +149,11 @@ public class Swiplist<T extends Comparable<? super T>> {
             insertNodeFirst(node);
         else
             for (int index = 0; index < node.getTowerHeight(); ++index) {
+                if (prevTower[index] == null) break;
                 node.setNode(index, prevTower[index].getNode(index));
                 prevTower[index].setNode(index, node);
             }
+        values.add(node.getValue());
     }
     
     /**
@@ -231,12 +182,10 @@ public class Swiplist<T extends Comparable<? super T>> {
     public void remove(T value) {
         Node<T>[] prevNodes = new Node[getNumberOfStairs()];
 
-        Node<T> node = findNodeToAdd(prevNodes, value);
+        Node<T> node = findNode(prevNodes, value);
         
-        if (node != null) {
-            deleteNode(prevNodes, node);
-            values.remove(node.getValue());
-        }
+        if (node != null)
+            deleteNode(prevNodes, node);     
     }
     
     /**
@@ -263,8 +212,12 @@ public class Swiplist<T extends Comparable<? super T>> {
         else
         {
             for (int index = 0; index < node.getTowerHeight(); ++index)
+            {
+                if (prevTower[index] == null) break;
                 prevTower[index].setNode(index, node.getNode(index));
+            }
         }
+        values.remove(node.getValue());
         node = null;
     }
     
@@ -340,7 +293,9 @@ public class Swiplist<T extends Comparable<? super T>> {
         
         System.out.println("-> adding éléments");
         list.add("cc");
+        list.print();
         list.add("comment");
+        list.print();
         list.add("va");
         list.add("tu");
 
