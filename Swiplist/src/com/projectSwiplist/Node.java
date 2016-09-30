@@ -75,7 +75,6 @@ public class Node<T> {
      * Renvoie le noeud de la tour présent à la position donnée en parmètre.
      *
      * @param index Position dans la tour.
-     * 
      * @return Noeud à la position donnée en paramètre.
      */
     public Node<T> getNode(int index) {
