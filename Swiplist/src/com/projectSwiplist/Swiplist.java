@@ -3,7 +3,7 @@ package com.projectSwiplist;
 import java.util.ArrayList;
 
 /**
- * IMPORTANT : REMETTRE UN TABLEAU DE TETE Node<T>[] heads
+ * 
  * @author BBprog
  */
 public class Swiplist<T extends Comparable<? super T>> {
@@ -91,25 +91,7 @@ public class Swiplist<T extends Comparable<? super T>> {
     }
     
     /**
-     * Renvoie le noeud contenant la valeur passée en paramètre si il est
-     * présent dans la liste, renvoie "null" sinon.
-     *
-     * (A REFAIRE)
-     * 
-     * @param value Valeur du noeud à trouver.
-     * @return Le noeud trouvé ou "null" si non trouvé.
-     */
-    private Node<T> findNodeByValue(T value) {
-        Node<T> prevNode = null;
-        Node<T> currentNode = null;
-        
-        return null;
-    }
-    
-    /**
      * Cherche la valeur dans la liste et renvoie le noeud trouvé.
-     * 
-     * (A REFAIRE)
      *
      * @param prevNodes Noeuds précédents le noeud à trouver.
      * @param value Valeur du noeud à trouver.
@@ -136,7 +118,7 @@ public class Swiplist<T extends Comparable<? super T>> {
             prevNodes[index] = prevNode;
         }
 
-        return (prevNode == null) ? null : prevNode.getNode(0);
+        return (prevNode == null) ? heads[0] : prevNode.getNode(0);
     }
     
     /**
@@ -147,15 +129,14 @@ public class Swiplist<T extends Comparable<? super T>> {
      * @param value Valeur du noeud à ajouter à la liste.
      */
     public void add(T value) {    	
-    	Node<T> node = generateNode(value);
-        
-        extendHeads(node.getTowerHeight());
-        
+    	Node<T> node = generateNode(value);        
         Node<T>[] prevNodes = new Node[getNumberOfStairs()];
         
         Node nodeFound = findNode(prevNodes, value);
-        if (nodeFound == null || nodeFound.getValue() != value)
+        if (nodeFound == null || nodeFound.getValue() != value) {
+            extendHeads(node.getTowerHeight());
             insertNode(prevNodes, node);
+        }
     }
     
     /**
@@ -166,7 +147,7 @@ public class Swiplist<T extends Comparable<? super T>> {
      */
     private void insertNode(Node[] prevTower,
                             Node<T> node) {
-        for (int index = 0; index < node.getTowerHeight(); ++index) {
+        for (int index = 0; index < prevTower.length; ++index) {
             if (prevTower[index] == null) {
                 node.setNode(index, heads[index]); 
                 heads[index] = node;  
@@ -202,7 +183,7 @@ public class Swiplist<T extends Comparable<? super T>> {
      */
     public void removeRandomNodes(int count) {
         if (count >= size()) return;
-        for (int index = 0; index < count; ++index)
+        for (int index = 0; index <= count; ++index)
             remove(getRandomValue());
     }
     
@@ -289,12 +270,9 @@ public class Swiplist<T extends Comparable<? super T>> {
         
         System.out.println("-> adding éléments");
         list.add("cc");
-        list.print();
         list.add("comment");
-        list.print();
         list.add("va");
         list.add("tu");
-
         list.print();
         
         list = new Swiplist();
@@ -303,7 +281,6 @@ public class Swiplist<T extends Comparable<? super T>> {
         list.add(5);
         list.add(10);
         list.add(8);
-        list.print();
         list.add(1);
         list.print();
         
