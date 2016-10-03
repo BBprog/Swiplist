@@ -77,6 +77,15 @@ public class Node<T> {
     }
     
     /**
+     * Renvoie la tour de pointeurs.
+     *
+     * @return la tour.
+     */
+    public Node<T>[] getTower() {
+        return tower;
+    }
+    
+    /**
      * Renvoie la taille de la tour.
      *
      * @return Taille de la tour.

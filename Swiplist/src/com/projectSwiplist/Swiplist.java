@@ -130,11 +130,13 @@ public class Swiplist<T extends Comparable<? super T>> {
      */
     public void add(T value) {    	
     	Node<T> node = generateNode(value);        
+        
+        extendHeads(node.getTowerHeight());
+        
         Node<T>[] prevNodes = new Node[getNumberOfStairs()];
         
         Node nodeFound = findNode(prevNodes, value);
         if (nodeFound == null || nodeFound.getValue() != value) {
-            extendHeads(node.getTowerHeight());
             insertNode(prevNodes, node);
         }
     }
@@ -147,7 +149,8 @@ public class Swiplist<T extends Comparable<? super T>> {
      */
     private void insertNode(Node[] prevTower,
                             Node<T> node) {
-        for (int index = 0; index < prevTower.length; ++index) {
+        for (int index = 0; index < prevTower.length &&
+                            index < node.getTowerHeight(); ++index) {
             if (prevTower[index] == null) {
                 node.setNode(index, heads[index]); 
                 heads[index] = node;  
@@ -209,14 +212,29 @@ public class Swiplist<T extends Comparable<? super T>> {
     /**
      * Affiche les valeurs de chaque noeud de la liste.
      */
-    public void print() {
-        System.out.print("(h:" + getNumberOfStairs() + ")");    
-        System.out.print("[ ");
-        Node n = heads[0];
-        for (; n != null; n = n.getNode(0)) {
-            System.out.print(n.getValue() + ":" + n.getTowerHeight() + " ");
+    public void print() { 
+        if (isEmpty()) {
+            System.out.print("[]");
+            return;
         }
-        System.out.print("]\n");
+        
+        for (int index = 0; index < getNumberOfStairs(); ++index) {
+            String str = (heads[index] == null) ? "X"
+                            : heads[index].getValue().toString();
+            System.out.print("[" + str + "] ");
+        }
+        System.out.print("\n"); 
+        
+        Node n = heads[0];
+        for ( ; n != null; n = n.getNode(0)) {
+            System.out.print("[" + n.getValue() + "]\t");
+            for (int index = 0; index < n.getTowerHeight(); ++index) {
+                String str = (n.getNode(index) == null) ? "X"
+                                : n.getNode(index).getValue().toString();
+                System.out.print("[" + str + "] ");
+            }
+            System.out.print("\n");    
+        }
         
         System.out.print("values = [ ");
         for (int index = 0; index < values.size(); ++index) {
@@ -273,14 +291,17 @@ public class Swiplist<T extends Comparable<? super T>> {
         list.add("comment");
         list.add("va");
         list.add("tu");
-        list.print();
         
         list = new Swiplist();
         System.out.println("-> adding éléments");
         list.add(3);
+        list.print();
         list.add(5);
+        list.print();
         list.add(10);
+        list.print();
         list.add(8);
+        list.print();
         list.add(1);
         list.print();
         
