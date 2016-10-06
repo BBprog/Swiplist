@@ -1,9 +1,5 @@
 package com.projectSwiplist;
 
-/**    
- *
- * @author BBprog
- */
 public class Node<T> {
     
     /**

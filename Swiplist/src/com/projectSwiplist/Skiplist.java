@@ -2,11 +2,7 @@ package com.projectSwiplist;
 
 import java.util.ArrayList;
 
-/**
- * 
- * @author BBprog
- */
-public class Swiplist<T extends Comparable<? super T>> {
+public class Skiplist<T extends Comparable<? super T>> {
     
     private final int MAX = 20;
     
@@ -25,7 +21,7 @@ public class Swiplist<T extends Comparable<? super T>> {
      * Constructeur par defaut. 
      * Initialise la première tête de la liste à "null".
      */
-    public Swiplist () {
+    public Skiplist () {
         this.values = new ArrayList<T> ();
         this.heads = new Node[1];
         this.heads[0] = null;
@@ -284,7 +280,7 @@ public class Swiplist<T extends Comparable<? super T>> {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        Swiplist list = new Swiplist();
+        Skiplist list = new Skiplist();
         
         System.out.println("-> adding éléments");
         list.add("cc");
@@ -292,7 +288,7 @@ public class Swiplist<T extends Comparable<? super T>> {
         list.add("va");
         list.add("tu");
         
-        list = new Swiplist();
+        list = new Skiplist();
         System.out.println("-> adding éléments");
         list.add(3);
         list.print();
