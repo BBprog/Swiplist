@@ -3,7 +3,9 @@ package com.projectSwiplist;
 import java.util.ArrayList;
 
 public class Skiplist<T extends Comparable<? super T>> {
-    
+    /**
+     * Nombre maximùum d'étages dans la liste.
+     */
     private final int MAX = 20;
     
     /**
@@ -73,7 +75,11 @@ public class Skiplist<T extends Comparable<? super T>> {
      * @return Une valeur aléatoire entre 1 et MAX.
      */
     private int generateRandomTowerSize() {
-        return (int) Math.floor((Math.random() * (MAX)) + 1);
+        int level = 1;
+        while (Math.random() < 0.5) {
+            ++level;
+        }
+        return (level < MAX) ? level : MAX;
     }
     
     /**
@@ -182,15 +188,15 @@ public class Skiplist<T extends Comparable<? super T>> {
      */
     public void removeRandomNodes(int count) {
         if (count >= size()) return;
-        for (int index = 0; index <= count; ++index)
+        for (int index = 0; index < count; ++index)
             remove(getRandomValue());
     }
     
     /**
      * Supprime un noeud de la liste.
      *
-     * @param prevTower Noeuds précédents le noeud à supprimer.
-     * @param node Noeud à supprimer la liste.
+     * @param prevTower Liste des noeuds précédents le noeud à supprimer.
+     * @param node Noeud à supprimer de la liste.
      */
     private void deleteNode(Node[] prevTower,
                             Node node) {
@@ -318,5 +324,4 @@ public class Skiplist<T extends Comparable<? super T>> {
         list.removeRandomNodes(3);
         list.print();
     }    
-
 }
