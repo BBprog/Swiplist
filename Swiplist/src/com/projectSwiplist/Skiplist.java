@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class Skiplist<T extends Comparable<? super T>> {
     /**
-     * Nombre maximùum d'étages dans la liste.
+     * Nombre maximum d'étages dans la liste.
      */
     private final int MAX = 20;
     
