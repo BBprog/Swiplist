@@ -6,7 +6,7 @@ public class Skiplist<T extends Comparable<? super T>> {
     /**
      * Nombre maximum d'étages dans la liste.
      */
-    private final int MAX = 20;
+    private final int MAX = 10;
     
     /**
      * Tableau des têtes de liste. 
