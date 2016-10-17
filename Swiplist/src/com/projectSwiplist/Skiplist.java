@@ -130,7 +130,8 @@ public class Skiplist<T extends Comparable<? super T>> {
      *
      * @param value Valeur du noeud à ajouter à la liste.
      */
-    public void add(T value) {    	
+    public void add(T value) {  
+        System.out.println("add " + value);
     	Node<T> node = generateNode(value);        
         
         extendHeads(node.getTowerHeight());
@@ -171,6 +172,7 @@ public class Skiplist<T extends Comparable<? super T>> {
      * @param value Valeur du noeud à ajouter à la liste.
      */
     public void remove(T value) {
+        System.out.println("remove " + value);
         Node<T>[] prevNodes = new Node[getNumberOfStairs()];
 
         Node<T> nodeFound = findNode(prevNodes, value);
@@ -214,35 +216,38 @@ public class Skiplist<T extends Comparable<? super T>> {
     /**
      * Affiche les valeurs de chaque noeud de la liste.
      */
-    public void print() { 
+    @Override
+    public String toString() { 
         if (isEmpty()) {
-            System.out.print("[]");
-            return;
+            return "[]";
         }
         
+        String listToString = ("[H]\t");
         for (int index = 0; index < getNumberOfStairs(); ++index) {
             String str = (heads[index] == null) ? "X"
                             : heads[index].getValue().toString();
-            System.out.print("[" + str + "] ");
+            listToString += ("[" + str + "] ");
         }
-        System.out.print("\n"); 
+        listToString += ("\n"); 
         
         Node n = heads[0];
         for ( ; n != null; n = n.getNode(0)) {
-            System.out.print("[" + n.getValue() + "]\t");
+            listToString += ("[" + n.getValue() + "]\t");
             for (int index = 0; index < n.getTowerHeight(); ++index) {
                 String str = (n.getNode(index) == null) ? "X"
                                 : n.getNode(index).getValue().toString();
-                System.out.print("[" + str + "] ");
+                listToString += ("[" + str + "] ");
             }
-            System.out.print("\n");    
+            listToString += ("\n");    
         }
         
-        System.out.print("values = [ ");
+        listToString += ("values = [ ");
         for (int index = 0; index < values.size(); ++index) {
-            System.out.print("" + values.get(index) + " ");
+            listToString += ("" + values.get(index) + " ");
         }
-        System.out.print("]\n");
+        listToString += ("]\n");
+        
+        return listToString;
     }
     
     /**
@@ -287,41 +292,34 @@ public class Skiplist<T extends Comparable<? super T>> {
      */
     public static void main(String[] args) {
         Skiplist list = new Skiplist();
-        
-        System.out.println("-> adding éléments");
-        list.add("cc");
-        list.add("comment");
-        list.add("va");
-        list.add("tu");
-        
-        list = new Skiplist();
+
         System.out.println("-> adding éléments");
         list.add(3);
-        list.print();
+        System.out.println(list.toString());
         list.add(5);
-        list.print();
+        System.out.println(list.toString());
         list.add(10);
-        list.print();
+        System.out.println(list.toString());
         list.add(8);
-        list.print();
+        System.out.println(list.toString());
         list.add(1);
-        list.print();
+        System.out.println(list.toString());
         
         System.out.println("-> remove 8");
         list.remove(8);
-        list.print();
+        System.out.println(list.toString());
         System.out.println("-> remove 2");
         list.remove(2);
-        list.print();
+        System.out.println(list.toString());
           
         System.out.println("-> adding éléments");
         list.add(9);
         list.add(12);
         list.add(1);
-        list.print();
+        System.out.println(list.toString());
         
         System.out.println("-> remove 3 random");
         list.removeRandomNodes(3);
-        list.print();
+        System.out.println(list.toString());
     }    
 }
