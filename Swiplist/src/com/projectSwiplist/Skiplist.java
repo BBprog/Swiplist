@@ -1,10 +1,3 @@
-/**
- * A FAIRE:
- *  - init heads taille MAX
- *  - print() -> toString()
- *  - (Observer pattern)
- */
-
 package com.projectSwiplist;
 
 import java.util.ArrayList;
