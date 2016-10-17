@@ -21,12 +21,11 @@ public class Skiplist<T extends Comparable<? super T>> {
     
     /**
      * Constructeur par defaut. 
-     * Initialise la première tête de la liste à "null".
+     * Initialise le tableau de tête à la taille maximum.
      */
     public Skiplist () {
         this.values = new ArrayList<T> ();
-        this.heads = new Node[1];
-        this.heads[0] = null;
+        this.heads = new Node[MAX];
     }
     
     /**
@@ -134,8 +133,6 @@ public class Skiplist<T extends Comparable<? super T>> {
         System.out.println("add " + value);
     	Node<T> node = generateNode(value);        
         
-        extendHeads(node.getTowerHeight());
-        
         Node<T>[] prevNodes = new Node[getNumberOfStairs()];
         
         Node nodeFound = findNode(prevNodes, value);
@@ -152,8 +149,7 @@ public class Skiplist<T extends Comparable<? super T>> {
      */
     private void insertNode(Node[] prevTower,
                             Node<T> node) {
-        for (int index = 0; index < prevTower.length &&
-                            index < node.getTowerHeight(); ++index) {
+        for (int index = 0; index < node.getTowerHeight(); ++index) {
             if (prevTower[index] == null) {
                 node.setNode(index, heads[index]); 
                 heads[index] = node;  
@@ -179,7 +175,6 @@ public class Skiplist<T extends Comparable<? super T>> {
         
         if (nodeFound != null && nodeFound.getValue().equals(value)) {
             deleteNode(prevNodes, nodeFound);
-            reduceHeads();
         }
     }
     
@@ -215,6 +210,7 @@ public class Skiplist<T extends Comparable<? super T>> {
     
     /**
      * Affiche les valeurs de chaque noeud de la liste.
+     * @return String La liste sous forme de chaîne de caractères.
      */
     @Override
     public String toString() { 
