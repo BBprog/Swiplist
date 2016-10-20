@@ -1,25 +1,16 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.projectSwiplist;
 
-/**
- *
- * @author Bprog
- */
-public class Node {
+public class Node<T> {
     
     /**
      * Valeur de la clef du noeud.
      */
-    private int value;
+    private T value;
     
     /**
      * Liste de noeuds correspondant à la tour de pointeur.
      */
-    private Node[] tower;
+    private Node<T>[] tower;
     
     /**
      * Taille de la tour.
@@ -34,7 +25,7 @@ public class Node {
      * @param value Valeur à assigner au noeud.
      * @param towerHeigth Taille de la tour.
      */
-    public Node(int value, int towerHeigth) {
+    public Node(T value, int towerHeigth) {
         this.value = value;
         if (towerHeight < 1) towerHeight = 1;
         this.towerHeight = towerHeigth;
@@ -46,7 +37,7 @@ public class Node {
      *
      * @param value Valeur à assigner au noeud.
      */
-    public void setValue(int value) {
+    public void setValue(T value) {
         this.value = value;
     }
     
@@ -56,7 +47,7 @@ public class Node {
      * @param index Position dans la tour à laquelle l'élément sera placé.
      * @param node Noeud à placer.
      */
-    public void setNode(int index, Node node) {
+    public void setNode(int index, Node<T> node) {
         if (index >= towerHeight) return;       
         this.tower[index] = node;
     }
@@ -66,7 +57,7 @@ public class Node {
      *
      * @return Valeur du noeud.
      */
-    public int getValue() {
+    public T getValue() {
         return value;
     }
     
@@ -74,12 +65,20 @@ public class Node {
      * Renvoie le noeud de la tour présent à la position donnée en parmètre.
      *
      * @param index Position dans la tour.
-     * 
      * @return Noeud à la position donnée en paramètre.
      */
-    public Node getNode(int index) {
+    public Node<T> getNode(int index) {
         if (index >= towerHeight) return null;
         return tower[index];
+    }
+    
+    /**
+     * Renvoie la tour de pointeurs.
+     *
+     * @return la tour.
+     */
+    public Node<T>[] getTower() {
+        return tower;
     }
     
     /**
